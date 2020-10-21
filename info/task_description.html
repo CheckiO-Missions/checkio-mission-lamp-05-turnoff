@@ -1,7 +1,18 @@
 <!-- Describe task in general -->
 
 <p>
-    Sum two passed ints
+    Since you are here, it means that you’ve already solved 4 missions of the series. Your function can already adopt more than one light bulb in the date array to determine if the room is lit or not. And with the second and third elements the period we want to observe can be defined.</p>
+
+<p>
+    In the 5th mission, a fourth argument is added - the operating time of the light bulbs. By analogy with the previous missions - if it’s not passed, then the bulb works indefinitely.
+</p>
+
+<p>
+    The operating time argument is passed as a timedelta object. It shows how long the light bulb can work when it’s on. It has no cooling, which means that if our bulb can work for only one hour, then it can work for 30 minutes now and 30 minutes next year. After that it will turn itself off and will no longer respond to the button.
+</p>
+
+<p>
+    We still need to calculate how long the room has been lit.
 </p>
 
 <p style="text-align: center;">
@@ -14,7 +25,7 @@
 </p>
 
 <p>
-    <strong>Output: </strong> Int. 
+    <strong>Output: </strong> An int. 
 </p>
 
 
@@ -35,18 +46,3 @@ sum_two(5, 7) == 12
 {% endif %}
 </div>
 
-
-<!-- Here you can explain how it can be used in development -->
-<!-- The section is optional -->
-<p class="for_info_only">
-
-    <strong>How it’s used: </strong>
-    <i>(math is used everywhere)</i>
-</p>
-
-<!-- Here you can explain some constraints for input-->
-<!-- The section is optional -->
-<p>
-    <strong>Precondition:</strong>
-    <i>both given ints should be between -1000 and 1000</i>
-</p>
