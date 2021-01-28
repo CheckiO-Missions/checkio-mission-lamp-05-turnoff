@@ -12,11 +12,15 @@ function sumLight(
 
 console.log("Example:");
 console.log(sumLight([
-    new Date(2015, 1, 12, 10, 0, 0),
-    [new Date(2015, 1, 12, 10, 0, 0), 2],
-    new Date(2015, 1, 12, 10, 0, 10),
-    [new Date(2015, 1, 12, 10, 1, 0), 2],
-]));
+    [new Date(2015, 1, 12, 10, 0, 10), 3],
+    new Date(2015, 1, 12, 10, 0, 20),
+    [new Date(2015, 1, 12, 10, 0, 30), 3],
+    [new Date(2015, 1, 12, 10, 0, 30), 2],
+    new Date(2015, 1, 12, 10, 0, 40),
+    [new Date(2015, 1, 12, 10, 0, 50), 2],
+    [new Date(2015, 1, 12, 10, 1, 0), 3],
+    [new Date(2015, 1, 12, 10, 1, 20), 3],
+], undefined, undefined, 10));
 
 assert.equal(sumLight([
     new Date(2015, 1, 12, 10, 0, 0),
