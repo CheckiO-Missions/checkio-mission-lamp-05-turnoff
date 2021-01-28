@@ -16,18 +16,20 @@
     Нам по-прежнему надо посчитать, как долго помещение было освещено.
 </p>
 
-<p style="text-align: center;">
-    <img  title="example" src="{{MEDIA}}example.png" alt="example" style="max-height: 83px"/>
+<p style="text-align: center;" class="for_info_only">
+    <img  title="example" src="{{MEDIA}}composition.gif" alt="example" style="max-height: 400px"/>
 </p>
 
 <!-- Explain input and output values -->
 <p>
-    <strong>Input: </strong> Two arguments. Both are ints.
+    <strong>Input: </strong> Три аргумента и только первый обязательный. Первый – {% if is_js %}an array of Date objects (вместо Date может быть [Date, number]){% else %}a list of datetime objects(вместо datetime может быть [datetime, int]){% endif %}, а второй и третий –  {% if is_js %}the Date objects{% else %}the datetime objects{% endif %}. Четвертый аргумент <i>(operating)</i> - {% if is_js %}timedelta object{% else %}integer{% endif %} - как долго работала лампочка.
+
 </p>
 
 <p>
-    <strong>Output: </strong> An int. 
+    <strong>Output: </strong> Количество секунд как integer. 
 </p>
+
 
 
 <!-- Give some usage examples -->
@@ -36,14 +38,79 @@
         <strong>Example:</strong>
     </p>
 
-{% if interpreter.slug == "js-node" %}
-<pre class="brush: javascript">sumTwo(2, 3) == 5
-sumTwo(5, 7) == 12
+{% if is_js %}
+<pre class="brush: javascript">sumLight([
+    new Date(2015, 1, 12, 10, 0, 0),
+    new Date(2015, 1, 12, 10, 0, 10),
+    [new Date(2015, 1, 12, 10, 0, 0), 2],
+    [new Date(2015, 1, 12, 10, 1, 0), 2],
+]) == 60
+
+sumLight([
+    [new Date(2015, 1, 12, 10, 0, 10), 3],
+    new Date(2015, 1, 12, 10, 0, 20),
+    [new Date(2015, 1, 12, 10, 0, 30), 3],
+    [new Date(2015, 1, 12, 10, 0, 30), 2],
+    new Date(2015, 1, 12, 10, 0, 40),
+    [new Date(2015, 1, 12, 10, 0, 50), 2],
+    [new Date(2015, 1, 12, 10, 1, 0), 3],
+    [new Date(2015, 1, 12, 10, 1, 20), 3],
+]) == 60
+
+sumLight([
+    new Date(2015, 1, 12, 10, 0, 0),
+    new Date(2015, 1, 12, 10, 0, 10),
+    [new Date(2015, 1, 12, 10, 0, 0), 2],
+    [new Date(2015, 1, 12, 10, 1, 0), 2],
+], new Date(2015, 1, 12, 10, 0, 20), new Date(2015, 1, 12, 10, 1, 0)) == 40
+
+sumLight([
+    [new Date(2015, 1, 12, 10, 0, 10), 3],
+    new Date(2015, 1, 12, 10, 0, 20),
+    [new Date(2015, 1, 12, 10, 0, 30), 3],
+    [new Date(2015, 1, 12, 10, 0, 30), 2],
+], new Date(2015, 1, 12, 10, 0, 10), new Date(2015, 1, 12, 10, 0, 30)) == 20
 </pre>
 {% else %}
-<pre class="brush: python">sum_two(2, 3) == 5
-sum_two(5, 7) == 12
+<pre class="brush: python">sum_light([
+    datetime(2015, 1, 12, 10, 0, 0),
+    datetime(2015, 1, 12, 10, 0, 30),
+    (datetime(2015, 1, 12, 10, 0, 30), 2),
+    (datetime(2015, 1, 12, 10, 1, 0), 2),
+], operating=timedelta(seconds=20)) == 40
+
+sum_light([
+    (datetime(2015, 1, 12, 10, 0, 10), 3),
+    datetime(2015, 1, 12, 10, 0, 20),
+    (datetime(2015, 1, 12, 10, 0, 30), 3),
+    (datetime(2015, 1, 12, 10, 0, 30), 2),
+    datetime(2015, 1, 12, 10, 0, 40),
+    (datetime(2015, 1, 12, 10, 0, 50), 2),
+    (datetime(2015, 1, 12, 10, 1, 20), 2),
+    (datetime(2015, 1, 12, 10, 1, 40), 2),
+], start_watching=datetime(2015, 1, 12, 10, 0, 20), operating=timedelta(seconds=100)) == 50
+
+sum_light([
+    (datetime(2015, 1, 12, 10, 0, 10), 3),
+    datetime(2015, 1, 12, 10, 0, 20),
+    (datetime(2015, 1, 12, 10, 0, 30), 3),
+    (datetime(2015, 1, 12, 10, 0, 30), 2),
+], 
+start_watching=datetime(2015, 1, 12, 10, 0, 10),
+end_watching=datetime(2015, 1, 12, 10, 0, 30),
+operating=timedelta(seconds=5)) == 10
 </pre>
 {% endif %}
 </div>
 
+<p>
+    <strong>Предусловия:</strong>
+</p>
+
+<ul>
+    <li><i>Массив нажатий на кнопку всегда отсортирован по возрастанию</i></li>
+    <li><i>В массиве нажатий на кнопку нет повторяющихся элементов</i></li>
+    <li><i>Количество элементов всегда четное число (это значит, что лампочка, в конце концов, будет выключена)</i></li>
+    <li><i>Минимально возможная дата 1970-01-01</i></li>
+    <li><i>Максимально возможная дата 9999-01-01</i></li>
+</ul>
