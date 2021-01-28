@@ -64,7 +64,7 @@ requirejs(['ext_editor_io', 'jquery_190'],
                     }
                 }
                 if (data.length > 3) {
-                    operating = ',\n' + data[2];
+                    operating = ',\n' + data[3];
                 }
             }
 
